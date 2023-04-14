@@ -1,5 +1,5 @@
 ---
-const res = await fetch("http://54.163.23.34/wp-json/wp/v2/posts");
+const res = await fetch(import.meta.env.WP_LOCATION + "/wp-json/wp/v2/posts");
 const posts = await res.json();
 ---
 
@@ -9,19 +9,47 @@ const posts = await res.json();
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
+    <title>Brian wants some saganaki</title>
   </head>
   <body>
-    {
-      posts.map((post: any) => (
-        <>
-          {post.jetpack_featured_media_url ? (
-            <img src={post.jetpack_featured_media_url} />
-          ) : null}
-          <h2 set:html={post.title.rendered} />
-          <p set:html={post.content.rendered} />
-        </>
-      ))
-    }
+    <div class="hero h-[50vh] bg-base-200">
+      <div class="hero-content text-center">
+        <div class="max-w-md">
+          <h1 class="text-8xl font-bold">{"🇬🇷 > 🇮🇹"}</h1>
+          <p class="py-6">
+            Lemme tell you a thing or two about Greek food. It's so much better
+            than Italian food. But Americans are always like, "Oh let's get some
+            Italian food." That's a stupid thing to say. I have tasked the
+            best/worst AI model to generate some reasons why Greek food is
+            better than Italian food.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="container mx-auto px-32">
+      {
+        posts.map((post: any) => (
+          <>
+            <div class="card bg-base-100 shadow-xl my-12">
+              <figure>
+                <img
+                  src={post.jetpack_featured_media_url}
+                  alt={`Image of ${post.title.rendered}`}
+                />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title text-3xl mb-2">{post.title.rendered}</h2>
+                <p>{post.content.rendered}</p>
+                <div class="card-actions justify-end">
+                  <button class="btn btn-primary">
+                    {post.slug ?? "Useless button"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        ))
+      }
+    </div>
   </body>
 </html>
